@@ -12,6 +12,8 @@
 # Slightly modified to my needs and config. Added RemotePort, and the creation of LocalPath
 # if it is non-existent
 
+# laserskip out
+
 # Settings
 RemoteUser="larserik"
 RemoteHost="larserikp.com"
