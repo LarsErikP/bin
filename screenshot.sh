@@ -19,7 +19,7 @@ RemoteUser="larserik"
 RemoteHost="larserikp.com"
 RemotePort=12222
 RemotePath="/srv/pic.laserskip.cloud/screenshots"
-LocalPath="${HOME}/screenshots/"
+LocalPath="${HOME}/screenshots"
 UrlBase="https://pic.laserskip.cloud/img"
 
 function errcho() {
