@@ -4,10 +4,14 @@ import datetime
 import re
 import sys
 import requests
+import locale
 from bs4 import BeautifulSoup
+
+locale.setlocale(locale.LC_TIME, 'nb_NO.UTF-8')
 
 menu_dict = {}
 today = datetime.datetime.today().weekday()
+literal_today = datetime.datetime.now().strftime("%A")
 week_translation = {
         'mandag': 0,
         'tirsdag': 1,
@@ -35,13 +39,16 @@ def fetch_menu():
 #########################
 if len(sys.argv) < 2:
     fetch_menu()
-    for day, food in menu_dict.items():
-        print("{}: {}".format(day.capitalize(), food))
+    print("I dag serveres: {}".format(menu_dict[literal_today]))
 elif len(sys.argv) == 2:
     search = sys.argv[1].lower()
-    if re.search('dag', search):
+    if search in week_translation.keys():
         fetch_menu()
         print(menu_dict[search])
+    elif search == 'meny':
+        fetch_menu()
+        for day, food in menu_dict.items():
+            print("{}: {}".format(day.capitalize(), food))
     else:
         fetch_menu()
         found=False
