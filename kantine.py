@@ -37,20 +37,17 @@ def fetch_menu():
 
 ## Program starts here ##
 #########################
-if len(sys.argv) < 2:
-    fetch_menu()
-    print("I dag serveres: {}".format(menu_dict[literal_today]))
+if len(sys.argv) > 2:
+    print("Feil antall argumenter, din lauk!")
 elif len(sys.argv) == 2:
+    fetch_menu()
     search = sys.argv[1].lower()
     if search in week_translation.keys():
-        fetch_menu()
         print(menu_dict[search])
     elif search == 'meny':
-        fetch_menu()
         for day, food in menu_dict.items():
             print("{}: {}".format(day.capitalize(), food))
     else:
-        fetch_menu()
         found=False
         for day, food in menu_dict.items():
             if re.search(search, food, flags=re.I):
@@ -64,4 +61,5 @@ elif len(sys.argv) == 2:
         if not found:
             print("Pokker, ikkeno {} denne uka :-(".format(search.lower()))
 else:
-    print("Feil antall argumenter, din lauk!")
+    fetch_menu()
+    print("I dag serveres: {}".format(menu_dict[literal_today]))
