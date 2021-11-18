@@ -47,6 +47,8 @@ elif len(sys.argv) == 2:
     elif search == 'meny':
         for day, food in menu_dict.items():
             print("{}: {}".format(day.capitalize(), food))
+    elif search == 'fisk':
+        print("JADA!!!! Det er fisk i dag også!!!")
     else:
         found=False
         for day, food in menu_dict.items():
