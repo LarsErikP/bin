@@ -26,7 +26,7 @@ def fetch_menu():
     page = requests.get(URL, headers=user_agent)
     soup = BeautifulSoup(page.content, "html.parser")
     menu = soup.find_all("li", class_="dishes__day")
-    remove = 'Plukk og mix'
+    remove = 'Plukk og mix|\|'
 
     for element in menu:
         day = element.find("h4").text.strip().lower()
