@@ -35,6 +35,12 @@ def fetch_menu():
             if not re.findall(remove, dish.text):
                 menu_dict[day] = re.sub(r',\s*fisk og vegetar', '', dish.contents[0].strip())
 
+def get_weekday_menu(weekday):
+    try:
+        return menu_dict[weekday]
+    except KeyError:
+        return "Ingen spesifikk rett på menyen i dag, så da blir det overraskelse!"
+
 ## Program starts here ##
 #########################
 if len(sys.argv) > 2:
@@ -43,8 +49,10 @@ elif len(sys.argv) == 2:
     fetch_menu()
     search = sys.argv[1].lower()
     if search in week_translation.keys():
-        print(menu_dict[search])
+        print(get_weekday_menu(search))
     elif search == 'meny':
+        if len(menu_dict) != 5:
+            print("Noen av dagene hadde litt mangelfull info, men her er det vi fant:")
         for day, food in menu_dict.items():
             print("{}: {}".format(day.capitalize(), food))
     elif search == 'fisk':
@@ -64,4 +72,4 @@ elif len(sys.argv) == 2:
             print("Pokker, ikkeno {} denne uka :-(".format(search.lower()))
 else:
     fetch_menu()
-    print("I dag serveres: {}".format(menu_dict[literal_today]))
+    print("I dag serveres: {}".format(get_weekday_menu(literal_today)))
