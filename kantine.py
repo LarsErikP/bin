@@ -33,7 +33,7 @@ def fetch_menu():
         dishes = element.find_all("li", class_="dishes__dishes__dish")
         for dish in dishes:
             if not re.findall(remove, dish.text):
-                menu_dict[day] = re.sub(r',\s*fisk og vegetar', '', dish.contents[0].strip())
+                menu_dict[day] = re.sub(r',\s*fisk og vegetar', '', dish.contents[0].strip(), flags=re.I)
 
 def get_weekday_menu(weekday):
     try:
