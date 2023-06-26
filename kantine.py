@@ -26,7 +26,7 @@ def fetch_menu():
     page = requests.get(URL, headers=user_agent)
     soup = BeautifulSoup(page.content, "html.parser")
     menu = soup.find_all("li", class_="dishes__day")
-    remove = 'Plukk og mix|\|'
+    remove = 'Plukk og mix|\||'
 
     for element in menu:
         day = element.find("h4").text.strip().lower()
@@ -51,7 +51,9 @@ elif len(sys.argv) == 2:
     if search in week_translation.keys():
         print(get_weekday_menu(search))
     elif search == 'meny':
-        if len(menu_dict) != 5:
+        if (len(menu_dict)) == 0:
+            print("Ukens meny har INGEN spesifikke retter! Lottouke!")
+        elif (len(menu_dict)) != 5:
             print("Noen av dagene hadde litt mangelfull info, men her er det vi fant:")
         for day, food in menu_dict.items():
             print("{}: {}".format(day.capitalize(), food))
