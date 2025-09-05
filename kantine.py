@@ -6,12 +6,23 @@ import sys
 import requests
 import locale
 from bs4 import BeautifulSoup
+import json
 
 locale.setlocale(locale.LC_TIME, 'nb_NO.UTF-8')
 
 menu_dict = {}
 today = datetime.datetime.today().weekday()
 literal_today = datetime.datetime.now().strftime("%A")
+week_number = int(datetime.datetime.today().strftime("%V"))
+year = datetime.datetime.today().year
+weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday"]
+weekday_translation = {
+        'monday': 'mandag',
+        'tuesday': 'tirsdag',
+        'wednesday': 'onsdag',
+        'thursday': 'torsdag',
+        'friday': 'fredag'
+        }
 week_translation = {
         'mandag': 0,
         'tirsdag': 1,
@@ -20,21 +31,23 @@ week_translation = {
         'fredag': 4
         }
 
+def get_current_week_menu(data, week, year):
+    return next((item for item in data if item.get("week") == week and item.get("year") == year), None)
+
 def fetch_menu():
-    URL = 'https://www.sit.no/gjovik/mat'
+    URL = 'https://www.sit.no/mat-og-drikke/vare-spisesteder/sit-kafe-gjovik'
     user_agent =  {'User-Agent': 'Mozilla/5.0(X11; Ubuntu; Linux x86_64; rv:93.0) Gecko/20100101 Firefox/93.0'}
     page = requests.get(URL, headers=user_agent)
     soup = BeautifulSoup(page.content, "html.parser")
-    menu = soup.find_all("li", class_="dishes__day")
-    remove = r'Plukk og mix|\|'
+    data = json.loads(soup.find_all("script", id="__NEXT_DATA__")[0].text)
+    allMenus = data['props']['pageProps']['data']['lookup']['weeklyMenus']
+    week_menu = get_current_week_menu(allMenus, week_number, year)
 
-    for element in menu:
-        day = element.find("h4").text.strip().lower()
-        dishes = element.find_all("li", class_="dishes__dishes__dish")
-        for dish in dishes:
-            if not re.findall(remove, dish.text):
-                if len(dish.contents[0].strip()) > 0:
-                    menu_dict[day] = re.sub(r'[\.,]\s*fisk og vegetar', '', dish.contents[0].strip(), flags=re.I)
+    for day in weekdays:
+        if day in week_menu:
+            dish = week_menu[day][0]['dish']
+            norwegian_day = weekday_translation[day]
+            menu_dict[norwegian_day] = re.sub(r'[\.,]\s*fisk og vegetar', '', dish, flags=re.I)
 
 def get_weekday_menu(weekday):
     try:
