@@ -65,6 +65,7 @@ elif len(sys.argv) == 2:
     if search in week_translation.keys():
         print(get_weekday_menu(search))
     elif search == 'meny':
+        print("Meny for uke {}, {}".format(week_number, year))
         if (len(menu_dict)) == 0:
             print("Ukens meny har INGEN spesifikke retter! Lottouke!")
         elif (len(menu_dict)) != 5:
