@@ -47,7 +47,7 @@ def fetch_menu():
         if day in week_menu:
             dish = week_menu[day][0]['dish']
             norwegian_day = weekday_translation[day]
-            menu_dict[norwegian_day] = re.sub(r'[\.,]\s*fisk (og|eller) vegetar', '', dish, flags=re.I)
+            menu_dict[norwegian_day] = re.sub(r'[\.,]\s*fisk (og|eller) vege?tar', '', dish, flags=re.I)
 
 def get_weekday_menu(weekday):
     try:
