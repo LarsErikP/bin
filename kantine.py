@@ -42,12 +42,12 @@ def fetch_menu():
     data = json.loads(soup.find_all("script", id="__NEXT_DATA__")[0].text)
     allMenus = data['props']['pageProps']['data']['lookup']['weeklyMenus']
     week_menu = get_current_week_menu(allMenus, week_number, year)
-
-    for day in weekdays:
-        if day in week_menu:
-            dish = week_menu[day][0]['dish']
-            norwegian_day = weekday_translation[day]
-            menu_dict[norwegian_day] = re.sub(r'[\.,]*\s*(fisk|vege?tar) (og|eller) (fisk|vege?tar)', '', dish, flags=re.I)
+    if week_menu:
+        for day in weekdays:
+            if day in week_menu:
+                dish = week_menu[day][0]['dish']
+                norwegian_day = weekday_translation[day]
+                menu_dict[norwegian_day] = re.sub(r'[\.,]*\s*(fisk|vege?tar) (og|eller) (fisk|vege?tar)', '', dish, flags=re.I)
 
 def get_weekday_menu(weekday):
     try:
