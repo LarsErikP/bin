@@ -17,6 +17,7 @@ wget -q "$URL" -O $TMPFILE
 if [[ -s $TMPFILE ]]; then
   WINNERS=$(tesseract $TMPFILE - | grep -oE '^[0-9]{4}')
   if [[ -n "$MYNUMBER" ]]; then
+    echo "Ditt registrerte loddnummer er: $MYNUMBER"
     $(echo "$WINNERS" | grep -q $MYNUMBER) && IWON=1
   fi
 else
