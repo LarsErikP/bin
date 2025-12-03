@@ -12,7 +12,9 @@ if [[ -z $(which tesseract) ]]; then
   exit 1
 fi
 
-echo "Vinnertall i Vind ILs julekalender $FULLDATE er:"
+function box() { local t="$1xxxx";local c="${2:-=}"; echo "${t//?/$c}"; echo "$c $1 $c"; echo "${t//?/$c}"; }
+
+box "Vinnertall i Vind ILs julekalender $FULLDATE "
 wget -q "$URL" -O $TMPFILE
 if [[ -s $TMPFILE ]]; then
   WINNERS=$(tesseract $TMPFILE - | grep -oE '^[0-9]{4}')
@@ -24,7 +26,7 @@ else
   WINNERS='...ikke trukket enda...'
 fi
 
-echo $WINNERS
+ echo "Dagens tall: ${WINNERS//$'\n'/ }"
 if [[ $IWON -eq 1 ]]; then
   echo "Du vant!"
 fi
