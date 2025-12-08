@@ -17,7 +17,7 @@ function box() { local t="$1xxxx";local c="${2:-=}"; echo "${t//?/$c}"; echo "$c
 box "Vinnertall i Vind ILs julekalender $FULLDATE "
 wget -q "$URL" -O $TMPFILE
 if [[ -s $TMPFILE ]]; then
-  WINNERS=$(tesseract $TMPFILE - | grep -oE '^[0-9]{4}')
+  WINNERS=$(tesseract $TMPFILE - | grep -oE '^[0-9]{3,4}')
   if [[ -n "$MYNUMBER" ]]; then
     echo "Ditt registrerte loddnummer er: $MYNUMBER"
     $(echo "$WINNERS" | grep -q $MYNUMBER) && IWON=1
