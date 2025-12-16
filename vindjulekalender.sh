@@ -2,7 +2,8 @@
 
 TODAY=$(date +%-d)
 FULLDATE=$(date +%d.%m.%Y)
-URL="https://vindil.no/storage/media/185/conversions/Trekning-$FULLDATE-main.jpg"
+NUM=$(( $TODAY+170 ))
+URL="https://vindil.no/storage/media/$NUM/conversions/Trekning-$FULLDATE-main.jpg"
 TMPFILE="/tmp/vind-${TODAY}.jpg"
 MYNUMBER=$1
 IWON=0
