@@ -45,9 +45,13 @@ def fetch_menu():
     if week_menu:
         for day in weekdays:
             if day in week_menu:
-                dish = week_menu[day][0]['dish']
-                norwegian_day = weekday_translation[day]
-                menu_dict[norwegian_day] = re.sub(r'[\.,]*\s*(fisk|v?ege?tar)\s?(og|eller|\/)\s?(fisk|v?ege?tar)', '', dish, flags=re.I)
+                dish_total_string = ''
+                for dishes in week_menu[day]:
+                    dish = dishes['dish']
+                    norwegian_day = weekday_translation[day]
+                    dish_string = re.sub(r'[\.,]*\s*(fisk|v?ege?tar)\s?(og|eller|\/)\s?(fisk|v?ege?tar)', '', dish, flags=re.I)
+                    dish_total_string += f"{dish_string} | "
+                menu_dict[norwegian_day] = re.sub(r'\s\|\s$', '', dish_total_string)
 
 def get_weekday_menu(weekday):
     try:
